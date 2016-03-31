@@ -1,5 +1,5 @@
 --[[You really should not edit this!]]--
-local version = "3.6" -- DO NOT EDIT THIS!
+local version = "3.7" -- DO NOT EDIT THIS!
 local version_url = "https://gist.githubusercontent.com/XxLMM13xXgaming/48eec2f2e65594cf1d63/raw/Bail%2520NPC" -- DO NOT EDIT THIS!
 local update_url = "https://github.com/XxLMM13xXgaming/lmm_bail_npc" -- DO NOT EDIT THIS!
 local update_ru = "https://gist.githubusercontent.com/XxLMM13xXgaming/27df90c0b98e7f0a14bd5e2445d41a67/raw/Bail%2520NPC%2520UR"
