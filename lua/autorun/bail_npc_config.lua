@@ -25,7 +25,7 @@ BailNPCConfig.DevMode = false -- Do not touch this.. its not a playable version.
 
 --NOTE: If you see (BETA) next to the option it may not work! You should leave it alone... Or mess with it and report errors!
 -- Vector for the NPC to spawn
-BailNPCConfig.PosToSpawn = Vector( -1396.662720, 27.279352, -131.968750 )
+BailNPCConfig.PosToSpawn = Vector( -1426.662720, 27.279352, -131.968750 )
 BailNPCConfig.AngleToSpawn = Angle( -1.639990, 0.640245, 0.000000 )
 
 BailNPCConfig.CopsGetMoney = true -- Should police get money when people bail out anyone (BETA)
@@ -33,3 +33,9 @@ BailNPCConfig.CopsGetMoney = true -- Should police get money when people bail ou
 BailNPCConfig.DefaultBailPrice = 1000 -- When a police member does not set the players bail this is what it will be...
 
 BailNPCConfig.AllowedToBailSelfOut = true -- Should a player be allowed to bail themself out using !bail?
+
+BailNPCConfig.MaxSetBailPrice = true -- Should there be a max setbail price?
+
+BailNPCConfig.MaxSetBailPriceValue = 25000 --What should be the max bail price for !setbail?
+
+BailNPCConfig.NotifyOnArrest = true --Should cops get a notification upon arresting someone?

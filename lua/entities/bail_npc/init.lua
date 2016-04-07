@@ -22,6 +22,10 @@ function ENT:Initialize()
 	self:SetMaxYawSpeed( 90 )
 end
 
+--[[
+Don't see much point in these checks. Maybe make a config option that lets you disable the command entirely but still allow players to bail themselves out?
+This way you could create a simple kind of jailbreak system, if the player gets out of the jail and presses e on the bailer, bailprace is set to 0 and player unarrested.
+]]
 local function BailSystemCommandToOpen(ply, text)
 	local text = string.lower(text)
 	if(string.sub(text, 0, 5)== "!bail" or string.sub(text, 0, 5)== "/bail") then
@@ -77,7 +81,7 @@ function playerArrestedSetBail(criminal, time, actor)
 --	criminal:SetNWFloat( "TimeArrested", CurTime() )
 --	criminal:SetNWString( "BailCop", tostring(actor:Nick()) )
 
-	criminal.BailAmount = BailNPCConfig.DefaultBailPrice
+    criminal.BailAmount = BailNPCConfig.DefaultBailPrice
 	criminal.TimeArrested = CurTime()
 	criminal.BailCop = tostring(actor:Nick())
 
@@ -86,11 +90,16 @@ function playerArrestedSetBail(criminal, time, actor)
 			net.WriteString("You can type !bail to bail yourself out!")
 		net.Send(criminal)
 	end
-	
+	//Checks if NotifyOnArrest ->and<- MaxSetBailPrice are set to true, if so will send the player a message including the max bail price, else it will display a message without it.
+	if BailNPCConfig.NotifyOnArrest and BailNPCConfig.MaxSetBailPrice then
 	net.Start("BailNPCMessage")
-		net.WriteString("You can type '!setbail <player name> <price>' to reset this players bailprice (deafult is: "..BailNPCConfig.DefaultBailPrice..") Make sure to be fair!")
+		net.WriteString("You can type '!setbail <player name> <price>' to reset this players bailprice (default is: $"..BailNPCConfig.DefaultBailPrice..") Max bailprice is "..BailNPCConfig.MaxSetBailPriceValue.."."))
 	net.Send(actor)
-	
+	elseif BailNPCConfig.NotifyOnArrest then
+	net.Start("BailNPCMessage")
+		net.WriteString("You can type '!setbail <player name> <price>' to reset this players bailprice (default is: $"..BailNPCConfig.DefaultBailPrice..".)"))
+	net.Send(actor)
+	end
 end
 hook.Add( "playerArrested", "playerArrestedSetBail", playerArrestedSetBail )
 
@@ -112,6 +121,13 @@ net.Receive( "BailNPCUsedToBail", function( len, ply )
 	if ply:getDarkRPVar("money") < BailPrice then
 		net.Start("BailNPCMessage")
 			net.WriteString("You do not have enough money!")
+		net.Send(BailPly)
+		return
+	end
+	//Checks if the arrested player's bailprice is over the max if turned on. If it is, refuse bail.
+	if BailPrice > BailNPCConfig.MaxSetBailPriceValue and BailNPCConfig.MaxSetBailPrice then
+		net.Start("BailNPCMessage")
+			net.WriteString("This players bail is set over the max bailprice! Cannot Bail.")
 		net.Send(BailPly)
 		return
 	end
@@ -156,6 +172,14 @@ function GiveBailPrice(ply, text, price)
 		local text = string.Explode(' ', text)
 		local jailer = GetPlayerByName( text[2] )
 		local price = text[3]
+		
+		//If price is over maxbailprice(if turned on) return false and notify the player.
+		if (BailNPCConfig.MaxSetBailPrice and price > BailNPCConfig.MaxSetBailPriceValue) then
+			net.Start( "BailNPCMessage" )
+				net.WriteString("The max setbail price is "..BailNPCConfig.MaxSetBailPriceValue.."!")
+			net.Send(ply)
+			return false
+		end
 
 		if(!jailer) then
 			net.Start( "BailNPCMessage" )
@@ -171,7 +195,7 @@ function GiveBailPrice(ply, text, price)
 		end
 		if (!ply:isCP()) then
 			net.Start( "BailNPCMessage" )
-				net.WriteString("You need to be a police member!")
+				net.WriteString("You need to be a cop to set a bail price!!")
 			net.Send(ply)
 			return false
 		end
