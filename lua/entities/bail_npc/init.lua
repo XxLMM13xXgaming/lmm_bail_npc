@@ -22,6 +22,10 @@ function ENT:Initialize()
 	self:SetMaxYawSpeed( 90 )
 end
 
+--[[
+Don't see much point in these checks. Maybe make a config option that lets you disable the command entirely but still allow players to bail themselves out?
+This way you could create a simple kind of jailbreak system, if the player gets out of the jail and presses e on the bailer, bailprace is set to 0 and player unarrested.
+]]
 local function BailSystemCommandToOpen(ply, text)
 	local text = string.lower(text)
 	if(string.sub(text, 0, 5)== "!bail" or string.sub(text, 0, 5)== "/bail") then
@@ -120,7 +124,7 @@ net.Receive( "BailNPCUsedToBail", function( len, ply )
 		net.Send(BailPly)
 		return
 	end
-	//Checks if the arrtested player's bailprice is over the max if turned on. If it is, refuse bail. 
+	//Checks if the arrested player's bailprice is over the max if turned on. If it is, refuse bail.
 	if BailPrice > BailNPCConfig.MaxSetBailPriceValue and BailNPCConfig.MaxSetBailPrice then
 		net.Start("BailNPCMessage")
 			net.WriteString("This players bail is set over the max bailprice! Cannot Bail.")
@@ -169,7 +173,7 @@ function GiveBailPrice(ply, text, price)
 		local jailer = GetPlayerByName( text[2] )
 		local price = text[3]
 		
-		
+		//If price is over maxbailprice(if turned on) return false and notify the player.
 		if (BailNPCConfig.MaxSetBailPrice and price > BailNPCConfig.MaxSetBailPriceValue) then
 			net.Start( "BailNPCMessage" )
 				net.WriteString("The max setbail price is "..BailNPCConfig.MaxSetBailPriceValue.."!")
