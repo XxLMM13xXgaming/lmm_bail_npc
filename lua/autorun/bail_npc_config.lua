@@ -30,6 +30,12 @@ BailNPCConfig.AngleToSpawn = Angle( -1.639990, 0.640245, 0.000000 )
 
 BailNPCConfig.CopsGetMoney = true -- Should police get money when people bail out anyone (BETA)
 
-BailNPCConfig.DefaultBailPrice = 1000 -- When a police member does not set the players bail this is what it will be...
+BailNPCConfig.DefaultBailPrice = 5000 -- When a police member does not set the players bail this is what it will be...
 
-BailNPCConfig.AllowedToBailSelfOut = true -- Should a player be allowed to bail themself out using !bail?
+BailNPCConfig.AllowedToBailSelfOut = false -- Should a player be allowed to bail themself out using !bail?
+
+BailNPCConfig.MaxSetBailPrice = true -- Should there be a max setbail price?
+
+BailNPCConfig.MaxSetBailPriceValue = 25000 --What should be the max bail price for !setbail?
+
+BailNPCConfig.NotifyOnArrest = false --Should cops get a notification upon arresting someone?
