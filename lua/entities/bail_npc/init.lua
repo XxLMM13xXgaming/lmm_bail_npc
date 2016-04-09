@@ -182,6 +182,15 @@ function GiveBailPrice(ply, text, price)
 			return false
 		end
 		
+		if BailNPCConfig.MaxBailPrice != false then
+			if tonumber(price) > BailNPCConfig.MaxBailPrice then
+				net.Start( "BailNPCMessage" )
+					net.WriteString("The bail price is too high! The max is "..BailNPCConfig.MaxBailPrice)
+				net.Send(ply)				
+				return false
+			end
+		end
+		
 		jailer.BailAmount = price
 		
 		net.Start( "BailNPCBailChanged" )
