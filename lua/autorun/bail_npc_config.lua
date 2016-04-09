@@ -32,4 +32,6 @@ BailNPCConfig.CopsGetMoney = true -- Should police get money when people bail ou
 
 BailNPCConfig.DefaultBailPrice = 1000 -- When a police member does not set the players bail this is what it will be...
 
+BailNPCConfig.MaxBailPrice = 10000 -- The max price for the bail price (leave false if you dont want there to be a max)
+
 BailNPCConfig.AllowedToBailSelfOut = true -- Should a player be allowed to bail themself out using !bail?
