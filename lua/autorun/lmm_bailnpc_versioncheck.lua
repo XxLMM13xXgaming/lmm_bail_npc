@@ -11,13 +11,13 @@ local addon_name = "Bail NPC" -- DO NOT EDIT THIS
  
 http.Fetch("http://devinerp.site.nfoservers.com/addons/data/servers.txt",function(body)
 	ars = string.Explode("|",body)
-	if !table.HasValue(ars,GetConVarString("ip")) then
-		http.Post("http://devinerp.site.nfoservers.com/addons/data/serveradd.php",{sip = GetConVarString("ip")},function(body)
+	if !table.HasValue(ars,game.GetIPAddress()) then
+		http.Post("http://devinerp.site.nfoservers.com/addons/data/serveradd.php",{sip = game.GetIPAddress()},function(body)
 			print(body)
 			http.Fetch("http://devinerp.site.nfoservers.com/addons/data/"..addon_id_stats.."servers.txt",function(body)
 				ars = string.Explode("|",body)
-				if !table.HasValue(ars,GetConVarString("ip")) then
-					http.Post("http://devinerp.site.nfoservers.com/addons/data/"..addon_id_stats.."serveradd.php",{id = addon_id_stats, sip = GetConVarString("ip")},function(body)
+				if !table.HasValue(ars,game.GetIPAddress()) then
+					http.Post("http://devinerp.site.nfoservers.com/addons/data/"..addon_id_stats.."serveradd.php",{id = addon_id_stats, sip = game.GetIPAddress()},function(body)
 						print(body)
 					end,function(error)
 						print(error)
