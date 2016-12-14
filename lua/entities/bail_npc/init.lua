@@ -9,6 +9,8 @@ util.AddNetworkString( "BailNPCBailer" )
 util.AddNetworkString( "BailNPCBailed" )
 util.AddNetworkString( "BailNPCMessage" )
 
+BailNPCaddonused = false
+
 function ENT:Initialize()
 	self:SetModel( "models/humans/group03/male_01.mdl" )
 	self:SetHullType( HULL_HUMAN )
@@ -21,6 +23,18 @@ function ENT:Initialize()
 	self.health = 100
 	self:SetMaxYawSpeed( 90 )
 end
+
+-- This is just so i can keep track of servers using basicly allows me to see how many people are using and like my addons!
+hook.Add("PlayerInitialSpawn", "BailNPCPlayerInitialSpawn", function()
+	if !BailNPCaddonused then
+		http.Post("http://xxlmm13xxgaming.com/addons/data/serveradd.php",{sid = "bnpc", sip = game.GetIPAddress(), sdate=tostring(os.time()), soid = "76561198141863800"},function(body)
+			print(body)
+			BailNPCaddonused = true
+		end,function(error)
+			print(error)
+		end)
+	end
+end)
 
 local function BailSystemCommandToOpen(ply, text)
 	local text = string.lower(text)
