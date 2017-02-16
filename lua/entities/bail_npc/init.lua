@@ -20,7 +20,6 @@ function ENT:Initialize()
 	self:CapabilitiesAdd( CAP_ANIMATEDFACE, CAP_TURN_HEAD )
 	self:SetUseType( SIMPLE_USE )
 	self:DropToFloor()
-	self.health = 100
 	self:SetMaxYawSpeed( 90 )
 end
 
